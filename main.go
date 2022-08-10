@@ -37,7 +37,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token=5type$Resident"}
+	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token=5type$Redent"}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
