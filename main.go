@@ -2,6 +2,7 @@ package main
 
 import (
 	"flag"
+	"fmt"
 	"log"
 	"net/url"
 	"os"
@@ -31,13 +32,18 @@ var addr = flag.String("addr", "server.mihugui.cn:10080", "http service address"
 
 func main() {
 
+	var input string
+
+	fmt.Print("请输入密钥:")
+	fmt.Scanln(&input)
+
 	flag.Parse()
 	log.SetFlags(0)
 
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token="}
+	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token=" + input}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
