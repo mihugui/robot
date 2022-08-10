@@ -37,7 +37,7 @@ func main() {
 	interrupt := make(chan os.Signal, 1)
 	signal.Notify(interrupt, os.Interrupt)
 
-	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token=5type$Redent"}
+	u := url.URL{Scheme: "ws", Host: *addr, ForceQuery: true, RawQuery: "access_token=5type$Resident"}
 	log.Printf("connecting to %s", u.String())
 
 	c, _, err := websocket.DefaultDialer.Dial(u.String(), nil)
@@ -56,7 +56,6 @@ func main() {
 				log.Println("read:", err)
 				return
 			}
-			//log.Printf("recv: %s", message)
 			// 数据处理 放入管道
 			api.Analyse(message, done)
 		}
