@@ -64,6 +64,7 @@ func Analyse(post []byte, done chan []byte) {
 	switch report.PostType {
 	case "message":
 		var message Message
+		fmt.Println("消息:" + string(post))
 		err := json.Unmarshal(post, &message)
 		if err != nil {
 			fmt.Println("解析失败报文:" + string(post))
@@ -75,10 +76,11 @@ func Analyse(post []byte, done chan []byte) {
 		fmt.Println("消息发送人id:" + fmt.Sprintf("%d", message.UserId))
 		fmt.Println("消息发送人昵称:" + message.Sender.Nickname)
 
+		// 判断为正常消息或者CQ
+
 		msg, _ := json.Marshal(SendGroupMsg(message.GroupId, message.Message))
 
-		done <- msg
-
+		//done <- msg
 	case "request":
 		var message Request
 		err := json.Unmarshal(post, &message)
@@ -86,7 +88,7 @@ func Analyse(post []byte, done chan []byte) {
 			fmt.Println("解析失败报文:" + string(post))
 			return
 		}
-		fmt.Println("消息类型:" + message.RequestType)
+		//fmt.Println("消息类型:" + message.RequestType)
 	case "notice":
 		var message Notice
 		err := json.Unmarshal(post, &message)
@@ -94,7 +96,7 @@ func Analyse(post []byte, done chan []byte) {
 			fmt.Println("解析失败报文:" + string(post))
 			return
 		}
-		fmt.Println("消息类型:" + message.RequestType)
+		//fmt.Println("消息类型:" + message.RequestType)
 	case "meta_event":
 		var message MetaEvent
 		err := json.Unmarshal(post, &message)
@@ -102,10 +104,12 @@ func Analyse(post []byte, done chan []byte) {
 			fmt.Println("解析失败报文:" + string(post))
 			return
 		}
-		fmt.Println("消息类型:" + message.MetaEventType)
-	default:
-		fmt.Println("未知消息类型:" + report.PostType)
+		//fmt.Println("消息类型:" + message.MetaEventType)
 
 	}
+
+}
+
+func CQ() {
 
 }
