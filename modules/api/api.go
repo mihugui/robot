@@ -1,21 +1,12 @@
 package api
 
-import "time"
+import (
+	"time"
+)
 
-type WebSocket struct {
-	Action string      `json:"action"`
-	Params interface{} `json:"params"`
-	Echo   string      `json:"echo"`
-}
-
-type CQMessage struct {
-	Type int64       `json:"type"`
-	Data interface{} `json:"data"`
-}
-
-func SendPrivateMsg(userId int64, message string) *WebSocket {
+func SendPrivateMsg(userId int64, message []CQMessage) WebSocket {
 	//TODO send private message
-	var ws *WebSocket
+	var ws WebSocket
 
 	ws.Action = "send_private_msg"
 	ws.Params = map[string]interface{}{
@@ -30,24 +21,7 @@ func SendPrivateMsg(userId int64, message string) *WebSocket {
 
 }
 
-func SendGroupMsg(gruopId int64, message string) WebSocket {
-	//TODO send private message
-	var ws WebSocket
-
-	ws.Action = "send_group_msg"
-	ws.Params = map[string]interface{}{
-		"group_id":    gruopId,
-		"message":     message,
-		"auto_escape": true,
-		"time":        time.Now().Unix(),
-	}
-	ws.Echo = "send_group_msg"
-
-	return ws
-
-}
-
-func SendGroupMsg(gruopId int64, message string) WebSocket {
+func SendGroupMsg(gruopId int64, message []CQMessage) WebSocket {
 	//TODO send private message
 	var ws WebSocket
 

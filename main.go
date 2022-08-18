@@ -13,21 +13,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-type message struct {
-	Time        int64  `json:"time"`
-	SelfId      int64  `json:"self_id"`
-	PostType    string `json:"post_type"`
-	MessageType string `json:"message_type"`
-	SubType     string `json:"sub_type"`
-	MessageId   int32  `json:"message_id"`
-	UserId      int64  `json:"user_id"`
-	Message     string `json:"message"`
-	RawMessage  string `json:"raw_message"`
-	Font        string `json:"font"`
-	Sender      string `json:"sender"`
-	TempSource  string `json:"temp_source"`
-}
-
 var addr = flag.String("addr", "server.mihugui.cn:10080", "http service address")
 
 func main() {
@@ -63,7 +48,7 @@ func main() {
 				return
 			}
 			// 数据处理 放入管道
-			api.Analyse(message, done)
+			api.Receive(message, done)
 		}
 	}()
 
