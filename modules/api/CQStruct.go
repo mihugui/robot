@@ -1,7 +1,7 @@
 package api
 
 type CQMessage struct {
-	Type int64  `json:"type"`
+	Type string `json:"type"`
 	Data CQData `json:"data"`
 }
 

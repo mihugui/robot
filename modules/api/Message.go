@@ -8,14 +8,15 @@ type Report struct {
 
 // 上报消息
 type Message struct {
-	SubType    string        `json:"sub_type"`
-	Message    string        `json:"message"`
-	UserId     int64         `json:"user_id"`
-	GroupId    int64         `json:"group_id"`
-	MessageId  int32         `json:"message_id"`
-	RawMessage string        `json:"raw_message"`
-	Font       int           `json:"font"`
-	Sender     MessageSender `json:"sender"`
+	SubType     string        `json:"sub_type"`
+	Message     string        `json:"message"`
+	MessageType string        `json:"message_type"`
+	UserId      int64         `json:"user_id"`
+	GroupId     int64         `json:"group_id"`
+	MessageId   int32         `json:"message_id"`
+	RawMessage  string        `json:"raw_message"`
+	Font        int           `json:"font"`
+	Sender      MessageSender `json:"sender"`
 }
 
 // 消息发送人员
