@@ -3,6 +3,8 @@ package api
 import (
 	"encoding/json"
 	"fmt"
+	"robot/modules/utils/draw"
+	"robot/modules/utils/qiniu"
 	"strings"
 )
 
@@ -37,6 +39,10 @@ func Receive(post []byte, done chan []byte) {
 
 		// 判断为正常消息或者CQ消息
 		msg := Analyse(message.Message)
+
+		if len(msg) == 0 {
+			return
+		}
 
 		if message.MessageType == "group" {
 			msgType, _ := json.Marshal(SendGroupMsg(message.GroupId, msg))
@@ -107,8 +113,33 @@ func Analyse(message string) []CQMessage {
 				})
 			}
 		}
-	case "对联":
-		break
+	case "文字转图片":
+		if len(msgs) == 1 {
+			cqMsg = append(cqMsg, CQMessage{
+				Type: "text",
+				Data: CQData{
+					Text: "缺少后续指令",
+				},
+			})
+		} else {
+			for index, msg := range msgs {
+				if index == 0 {
+					continue
+				}
+
+				// 转换成图片文字
+				if draw.WordToPic(msg) {
+					url, _ := qiniu.Upload(msg+".png", "out.png")
+					cqMsg = append(cqMsg, CQMessage{
+						Type: "image",
+						Data: CQData{
+							File: url,
+						},
+					})
+				}
+
+			}
+		}
 
 	}
 
