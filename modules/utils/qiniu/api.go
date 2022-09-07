@@ -31,7 +31,7 @@ func Upload(key string, localFile string) (string, error) {
 
 	// 上传策略
 	putPolicy := storage.PutPolicy{
-		Scope:      bucket,
+		Scope:      fmt.Sprintf("%s:%s", bucket, key),
 		ReturnBody: `{"key":"$(key)","hash":"$(etag)","fsize":$(fsize),"bucket":"$(bucket)","name":"$(x:name)","url":"http://media.mihugui.cn/$(key)"}`,
 	}
 

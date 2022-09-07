@@ -66,11 +66,7 @@ func main() {
 			}
 		// 定时发送消息
 		case <-ticker.C:
-			// err := c.WriteMessage(websocket.TextMessage, []byte(t.String()))
-			// if err != nil {
-			// 	log.Println("write:", err)
-			// 	return
-			// }
+
 		// 事件消息
 		case <-interrupt:
 			log.Println("interrupt")

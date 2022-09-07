@@ -4,7 +4,9 @@ import (
 	"encoding/json"
 	"fmt"
 	"robot/modules/utils/draw"
+	"robot/modules/utils/joke"
 	"robot/modules/utils/qiniu"
+	"robot/modules/utils/weather"
 	"strings"
 )
 
@@ -85,34 +87,6 @@ func Analyse(message string) []CQMessage {
 	// 判断是否符合规范
 	msgs := strings.Split(message, " ")
 	switch msgs[0] {
-	case "测试":
-		if len(msgs) == 1 {
-			cqMsg = append(cqMsg, CQMessage{
-				Type: "text",
-				Data: CQData{
-					Text: "缺少后续指令",
-				},
-			})
-		} else {
-			for index, msg := range msgs {
-				if index == 0 {
-					continue
-				}
-				cqMsg = append(cqMsg, CQMessage{
-					Type: "text",
-					Data: CQData{
-						Text: msg,
-					},
-				})
-
-				cqMsg = append(cqMsg, CQMessage{
-					Type: "text",
-					Data: CQData{
-						Text: " ",
-					},
-				})
-			}
-		}
 	case "文字转图片":
 		if len(msgs) == 1 {
 			cqMsg = append(cqMsg, CQMessage{
@@ -140,6 +114,40 @@ func Analyse(message string) []CQMessage {
 
 			}
 		}
+	case "天气":
+		if len(msgs) == 1 {
+			cqMsg = append(cqMsg, CQMessage{
+				Type: "text",
+				Data: CQData{
+					Text: "缺少后续指令",
+				},
+			})
+		} else {
+			for index, msg := range msgs {
+				if index == 0 {
+					continue
+				}
+
+				// 获取天气情况
+				info := weather.GetWeather(msg)
+				cqMsg = append(cqMsg, CQMessage{
+
+					Type: "text",
+					Data: CQData{
+						Text: info,
+					},
+				})
+			}
+		}
+	case "讲笑话":
+		joke := joke.GetJoke()
+		cqMsg = append(cqMsg, CQMessage{
+
+			Type: "text",
+			Data: CQData{
+				Text: joke,
+			},
+		})
 
 	}
 
